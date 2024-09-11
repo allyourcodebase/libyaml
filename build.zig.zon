@@ -1,0 +1,11 @@
+.{
+    .name = "libyaml",
+    .version = "0.2.5",
+    .paths = .{
+        "build.zig",
+        "build.zig.zon",
+        "License",
+        "src",
+        "include/yaml.h"
+    },
+}

@@ -44,3 +44,6 @@ stamp-h1
 /tests/test-reader
 /tests/test-version
 /dist/
+
+zig-out
+.zig-cache
