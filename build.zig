@@ -26,11 +26,11 @@ pub fn build(b: *Build) void {
         .optimize = optimize,
         .link_libc = true,
     });
-    libyaml.defineCMacro("YAML_VERSION_MAJOR", "0");
-    libyaml.defineCMacro("YAML_VERSION_MINOR", "2");
-    libyaml.defineCMacro("YAML_VERSION_PATCH", "5");
-    libyaml.defineCMacro("YAML_VERSION_STRING", "\"0.2.5\"");
-    libyaml.defineCMacro("YAML_DECLARE_STATIC", "1");
+    libyaml.root_module.addCMacro("YAML_VERSION_MAJOR", "0");
+    libyaml.root_module.addCMacro("YAML_VERSION_MINOR", "2");
+    libyaml.root_module.addCMacro("YAML_VERSION_PATCH", "5");
+    libyaml.root_module.addCMacro("YAML_VERSION_STRING", "\"0.2.5\"");
+    libyaml.root_module.addCMacro("YAML_DECLARE_STATIC", "1");
     libyaml.addIncludePath(b.path("include"));
     libyaml.addCSourceFiles(.{
         .files = &.{
