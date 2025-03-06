@@ -1,25 +1,40 @@
 name: Zig Build
+
 on:
   push:
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        os: [
-          ubuntu-latest,
-          windows-latest,
-          macos-latest,
-        ]
+        zig-version: ["0.14.0", "master"]
+        os: [macos-latest, windows-latest]
+        include:
+          - zig-version: "0.14.0"
+            check-format: true
+            os: ubuntu-latest
+
+          - zig-version: master
+            os: ubuntu-latest
+
+    runs-on: ${{ matrix.os }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup Zig
-      uses: mlugg/setup-zig@v1
-      with:
-        version: master
+      - name: Setup Zig
+        uses: mlugg/setup-zig@v1
+        with:
+          version: ${{ matrix.zig-version }}
 
-    - name: Build
-      run: zig build
+      - if: ${{ matrix.check-format }}
+        name: Check Formatting
+        run: zig fmt --ast-check --check .
+
+      - name: Build
+        run: zig build ${{ matrix.build-options }} --summary all
